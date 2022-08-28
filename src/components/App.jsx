@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import ContactForm from "./ContactForm/ContactForm";
 import ContactList from "./ContactList/ContactList";
 import Filter from "./Filter/Filter";
+import { saveToLocalStorage, loadFromLocalStorage } from "storage/localStorageSupport";
 
 export class App extends Component {
   state = {
@@ -29,6 +30,14 @@ export class App extends Component {
       }));
     }
   }
+
+  componentDidMount = () => {
+    return (loadFromLocalStorage("contacts") && this.setState(({contacts: loadFromLocalStorage("contacts")})));
+  }
+  componentDidUpdate = () => {
+    saveToLocalStorage("contacts", this.state.contacts);
+  }
+
 
   setFilter = (evt) => {
     const value = evt.target.value.toLowerCase();
